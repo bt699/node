@@ -16,26 +16,26 @@ const adapterSync = new FileSync('./dist/keycloak.json'); // 申明一个适配�
 const db = low(adapterSync);
 db.defaults({})
   .write();
-
+  
 //apireaml.json
 const adapterSyncapireaml = new FileSync('./dist/apireaml.json'); // 申明一个适配器
 const dbapireaml = low(adapterSyncapireaml);
 dbapireaml.defaults({})
   .write();
-dbapireaml.set('putreaml', '').write();
+dbapireaml.set('putreaml', '').write(); 
 
 //apisession.json
 const adapterSyncapisession = new FileSync('./dist/apisessions.json'); // 申明一个适配器
 const dbapisession = low(adapterSyncapisession);
 dbapisession.defaults({})
   .write();
-
+  
 //posthome.json
 const adapterSyncposthome = new FileSync('./dist/posthome.json'); // 申明一个适配器
 const dbposthome = low(adapterSyncposthome);
 dbposthome.defaults({"posthome": []})
   .write();
-//dbposthome.set({"posthome": []}).write();
+//dbposthome.set({"posthome": []}).write(); 
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
@@ -73,15 +73,15 @@ app.put('/realm', function (req, res, next) {
 		db.set('clientId',req.body['clientId'])
 		  .write();
 	}
-
+	
 	if (req.body['url']) {
 		db.set('url',req.body['url'])
 		  .write();
 	}
 	if (req.body['realm']) {
 		db.set('realm',req.body['realm'])
-		  .write();
-	}
+		  .write();		
+	}	
     res.send(req.body);
 })
 
@@ -90,14 +90,14 @@ app.put('/apirealm', function (req, res, next) {
 		dbapireaml.set('addreaml',req.body['addreaml'])
 		  .write();
 	}
-
+	
 	if (req.body['delreaml']) {
 		dbapireaml.set('delreaml',req.body['delreaml'])
 		  .write();
 	}
 	if (req.body['getreaml']) {
 		dbapireaml.set('getreaml',req.body['getreaml'])
-		  .write();
+		  .write();		
 	}
     res.send(req.body);
 })
@@ -108,7 +108,7 @@ app.put('/apisession', function (req, res, next) {
 		dbapisession.set('delsessions',req.body['delsessions'])
 		  .write();
 	}
-
+	
 	if (req.body['usersessions']) {
 		dbapisession.set('usersessions',req.body['usersessions'])
 		  .write();
@@ -123,8 +123,8 @@ async function fsecopykey(k,l,b){
 		await fse.copy(k,l)
 		const lockfile = fse.readJsonSync(l)
 		lockfile.resource = b
-		fse.writeJson(k,lockfile,err=>{})
-
+		fse.writeJson(k,lockfile,err=>{})	
+		
 	}catch(e){
 		console.log(e);
 		//TODO handle the exception
@@ -158,8 +158,8 @@ async function fsecopydir(d,c){
 		  //console.log('创建成功')
 		  return '创建成功'
 	  })
-
-
+	  
+	  
   }
  //urltofile
  function urltofile(confile){
@@ -168,30 +168,30 @@ async function fsecopydir(d,c){
 		 return '创建成功'
 	 })
  }
-
+ 
  //confwrite
  function confwrite(fileconf,listen,server_name,root){
-
-
+ 	
+	  
 	  	NginxConfFile.create(fileconf,function(err,conf){
 	 	if(err){
 	 		console.log(err)
 	 		return
 	 	}
-
+	 	
 	 	conf.nginx._add('server');
 	 	conf.nginx.server._add('listen',listen);
 	 	conf.nginx.server._add('server_name',server_name);
 	 	conf.nginx.server._add('index','index.html');
-	 	conf.nginx.server._add('root', root);
+	 	conf.nginx.server._add('root', root);	
 	 	conf.nginx.server._add('location','/');
-	 	conf.nginx.server.location._add('try_files','$uri $uri/ /index.html');
-
+	 	conf.nginx.server.location._add('try_files','$uri $uri/ /index.html');	
+	 	
 	 })
-
-
-
-
+	  	
+	 
+ 	
+	
  }
  //二级目录写入confsub
  function subconfwrite(fileconf,loc,uri){
@@ -204,7 +204,6 @@ async function fsecopydir(d,c){
 	 	conf.nginx.location._add('try_files',uri);	//'$uri $uri/ /index.html'
 	 })
  }
-
   //二级目录创建文件suburltofile
  function suburltofile(confile){
 	 fs.writeFile('/www/wwwroot/163.com/rewrite/'+confile+'.conf',"",err=>{
@@ -219,7 +218,7 @@ async function fsecopydir(d,c){
 	let stat = fse.lstatSync(src)
 	let isDirectory = stat.isDirectory()
 	if (isDirectory){
-		return true;
+		return true;		
 	}else{
 		const pathext = path.extname(src)
 		if( pathext == '.json' ) {
@@ -235,7 +234,7 @@ async function fsecopydir(d,c){
 	console.log('拷贝成功')
 	})
  }
-
+ 
  //异步硬拷贝json
 async function cpcopyjson(pa){
      const antjson = '/www/server/antnode/dist/' + pa + '/*.json'
@@ -244,9 +243,9 @@ async function cpcopyjson(pa){
 	await process.exec(cpl,function(err){
      console.log(err)      //当成功是error是null
      })
-
+	
  }
-
+ 
 //异步替换文件夹
 async function replacedir(dest,pa){
     var filePathjs = path.resolve(dest+'/js')
@@ -282,19 +281,19 @@ async function replacefile(dest,pa){
 	})
 }
   //get homeMenu
-
+ 
  app.get('/posthome/:homeDomain', (req, res) => {
    const post = dbposthome.get('posthome')
      .find({ homeDomain: req.params.homeDomain })
      .value()
-
+ 
    res.send(post)
  })
-
+ 
  //update homeMenu
-
+ 
   app.post('/posthome/:homeDomain', (req, res) => {
-
+      
    const post = dbposthome.get('posthome')
      .find({ homeDomain: req.params.homeDomain })
 	 .assign(req.body)
@@ -304,8 +303,8 @@ async function replacefile(dest,pa){
 	  acopynojson(newurlkey.pathname)
 	  //硬链接复制json
 	  cpcopyjson(newurlkey.pathname)
-
-
+     
+ 
    res.send(post)
  })
 
@@ -316,26 +315,26 @@ app.post('/posthome',function(req,res){
 		// const dbbodyjson = JSON.stringify(dbbody)
 		// console.log(dbbodyjson);
 		res.send(dbbody)
-
+		
 	}else{
 	console.log(req.body)
 	const newurlkey = new URL(req.body.homeDir)
 	console.log(newurlkey.pathname)
 	console.log(req.body.homeClient)
 	fsecopydir(newurlkey.pathname,req.body.homeClient)
-
+	
 	//二级域名拷贝文件夹过滤json
 	//acopynojson(newurlkey.pathname)
 	//硬链接复制json
 	//cpcopyjson(newurlkey.pathname)
 	/*
 	const obj = { dereference:true}
-
+	
 	obj.filter = (src,dest) => {
 	let stat = fse.lstatSync(src)
 	let isDirectory = stat.isDirectory()
 	if (isDirectory){
-		return true;
+		return true;		
 	}else{
 		const pathext = path.extname(src)
 		if( pathext == '.json' ) {
@@ -359,22 +358,24 @@ app.post('/posthome',function(req,res){
      })
 	})
 	*/
-
+	
 	urltofile(req.body.homeDomain)
 	//二级新建conf文件
 	suburltofile(req.body.homeDomain)
-	const newurl = new URL(req.body.homeDir)
-	const rootpath = path.resolve('dist'+newurl.pathname)
+	const newurl = new URL(req.body.homeDir)	
+	const rootpath = path.resolve('dist'+newurl.pathname)	
 	confwrite('conf/'+req.body.homeDomain+'.conf','80',req.body.homeDomain,rootpath)
 	//写入二级conf文件
 	subconfwrite('/www/wwwroot/163.com/rewrite/'+req.body.homeDomain+'.conf',newurl.pathname+'/','$uri $uri/ '+newurl.pathname+'/index.html')
+	
+	
+	
+	
 	//二级替换字串目录
-	const destFolder = path.normalize('/www/wwwroot/163.com/'+newurlkey.pathname)
-    console.log('373' + destFolder);
-    console.log('374' + newurlkey.pathname);
-	replacedir(destFolder,newurlkey.pathname)
+	//const destFolder = path.normalize('/www/wwwroot/163.com/'+newurlkey.pathname)
+	//replacedir(destFolder,newurlkey.pathname)
 	//二级替换字串文件
-	replacefile(destFolder,newurlkey.pathname)
+	//replacefile(destFolder,newurlkey.pathname)
 	/*
 	var filePathjs = path.resolve(destFolder+'/js')
 	fs.readdir(filePathjs,'utf8',function(err,data){
@@ -412,13 +413,13 @@ app.post('/posthome',function(req,res){
 		const dbbody = dbposthome.get('posthome').value()
 		res.send(dbbody)
 
-
+		
 	};
 	//res.send(req.body)
 })
 
 //post menu
- app.post('/postmenu/:homeDomain', (req, res) => {
+ app.post('/postmenu/:homeDomain', (req, res) => {   
    console.log(req.body)
    const post = req.body
    const homedir = post.homeDir
@@ -433,10 +434,10 @@ app.post('/posthome',function(req,res){
    const adapterSyncpostmenu = new FileSync('./dist'+newurl.pathname+'/postmenu.json'); // 申明一个适配器
    const dbpostmenu = low(adapterSyncpostmenu);
    dbpostmenu.defaults({homeMenu:[],pColor:"",layouthead:"",headcol:[],headlogo:""})
-     .write();
+     .write();	 
    dbpostmenu.get('homeMenu')
              .assign(post.homeMenu)
-			 .write()
+			 .write() 
    dbpostmenu.set('pColor',post.pColor)
 			 .write()
    dbpostmenu.set('layouthead',post.layouthead)
@@ -450,9 +451,9 @@ app.post('/posthome',function(req,res){
 			 .write()
    res.send(post)
  })
-
+ 
  //put menu
-  app.put('/putmenu', (req, res) => {
+  app.put('/putmenu', (req, res) => {   
    console.log(req.body)
    const put = req.body
    const adapterSyncputmenu = new FileSync('./dist'+'/postmenu.json'); // 申明一个适配器
@@ -462,7 +463,7 @@ app.post('/posthome',function(req,res){
    if(req.body.homeMenu){
        dbputmenu.get('homeMenu')
              .assign(put.homeMenu)
-			 .write()
+			 .write() 
    };
    if(req.body.pColor){
        dbputmenu.set('pColor',put.pColor)
@@ -515,6 +516,13 @@ app.post('/posthome',function(req,res){
        dbputmenu.set('clientId',put.clientId)
 			    .write()
    };
+   //二级替换字串目录
+	const destFolder = path.normalize('/www/wwwroot/163.com/'+key.key)
+    console.log('521' + destFolder);
+    console.log('522' + key.key);
+	replacedir(destFolder,'/'+key.key+'/')
+	//二级替换字串文件
+	replacefile(destFolder,'=/'+key.key+'/')
    res.send(put)
  })
 
