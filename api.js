@@ -2,6 +2,18 @@ const express = require('express');
 const Router = express.Router();
 
 
+/* const notices = require('./api.notices.json');
+const charts = require('./chart');
+const userCurrent = require('./api.userCurrent.json');
+const projectNotice = require('./getData').getNotice;
+const getActivities = require('./getData').getActivities;
+const getFakeList = require('./getData').getFakeList;
+const getRule = require('./rule').getRule;
+const putRule = require('./rule').putRule;
+const deleteRule = require('./rule').deleteRule;
+const getProfileBasicData = require('./profile').getProfileBasicData;
+const getProfileAdvancedData = require('./profile').getProfileAdvancedData; */
+
 // post 获取参数 console.log(req.body);
 // get 获取参数 console.log(req.query);
 

@@ -37,6 +37,12 @@ dbposthome.defaults({"posthome": []})
   .write();
 //dbposthome.set({"posthome": []}).write(); 
  */
+const adapterSyncposthome = new FileSync('./dist/posthome.json'); // 申明一个适配器
+const dbposthome = low(adapterSyncposthome);
+dbposthome.defaults({"posthome": []})
+  .write();
+//dbposthome.set({"posthome": []}).write(); 
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 
@@ -288,6 +294,19 @@ async function replacefile(dest,pa){
      .value()
  
    res.send(post)
+ })
+ 
+ //put posthome
+ 
+ //put posthome
+ app.put('/posthome/:homeDomain',(req, res, next)=>{
+	 const put = dbposthome.get('posthome')
+	 .find({homeDomain:req.params.homeDomain})
+	 .assign(req.body)
+	 .write()
+	 //console.log(req.body['homeToken']);	 
+	 res.send(put)
+	 
  })
  
  //update homeMenu
