@@ -12,7 +12,7 @@ const FileSync = require('lowdb/adapters/FileSync');
 const NginxConfFile = require('nginx-conf').NginxConfFile
 let process = require('child_process')
 
-const adapterSync = new FileSync('./dist/keycloak.json'); // 申明一个适配器
+/* const adapterSync = new FileSync('./dist/keycloak.json'); // 申明一个适配器
 const db = low(adapterSync);
 db.defaults({})
   .write();
@@ -36,7 +36,7 @@ const dbposthome = low(adapterSyncposthome);
 dbposthome.defaults({"posthome": []})
   .write();
 //dbposthome.set({"posthome": []}).write(); 
-
+ */
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 
