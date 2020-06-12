@@ -298,7 +298,7 @@ async function replacefile(dest,pa){
  
  //put posthome
  
- //put posthome
+
  app.put('/posthome/:homeDomain',(req, res, next)=>{
 	 const put = dbposthome.get('posthome')
 	 .find({homeDomain:req.params.homeDomain})
@@ -308,7 +308,7 @@ async function replacefile(dest,pa){
 	 res.send(put)
 	 
  })
- 
+  //put posthome end
  //update homeMenu
  
   app.post('/posthome/:homeDomain', (req, res) => {
