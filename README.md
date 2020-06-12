@@ -11,7 +11,7 @@ $ cd node
 $ yarn install
 
 启动模拟数据
-$ yarn serve
+$ node serve.js
 
 在浏览器中输入 http://localhost:5000
 ```
