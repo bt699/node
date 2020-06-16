@@ -243,8 +243,10 @@ async function fsecopydir(d,c){
  
  //异步硬拷贝json
 async function cpcopyjson(pa){
-     const antjson = '/www/server/antnode/dist/' + pa + '/*.json'
-	const wwwpath = '/www/wwwroot/163.com/'+ pa
+	const antjoin = path.join('/www/server/antnode/dist/', pa)
+     const antjson = antjoin + '/*.json'
+	 const wwwjoin = path.join('/www/wwwroot/163.com/', pa)
+	const wwwpath = wwwjoin + '/'
 	const cpl = 'cp  -l  ' + antjson + ' ' + wwwpath
 	await process.exec(cpl,function(err){
      console.log(err)      //当成功是error是null
@@ -296,7 +298,7 @@ async function replacefile(dest,pa){
    res.send(post)
  })
  
- //put posthome
+ //put posthome HomeTable.vue
  
 
  app.put('/posthome/:homeDomain',(req, res, next)=>{
@@ -308,7 +310,7 @@ async function replacefile(dest,pa){
 	 res.send(put)
 	 
  })
-  //put posthome end
+ //put posthome end
  //update homeMenu
  
   app.post('/posthome/:homeDomain', (req, res) => {
@@ -535,6 +537,10 @@ app.post('/posthome',function(req,res){
        dbputmenu.set('clientId',put.clientId)
 			    .write()
    };
+   //二级域名拷贝文件夹过滤json
+   //acopynojson(newurlkey.pathname)
+   //硬链接复制json
+   //cpcopyjson(newurlkey.pathname)
    //二级替换字串目录
 	const destFolder = path.normalize('/www/wwwroot/163.com/'+key.key)
     console.log('521' + destFolder);
