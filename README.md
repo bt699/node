@@ -14,6 +14,9 @@ $ yarn install
 $ node serve.js
 
 在浏览器中输入 http://localhost:5000
+
+npm i multer -s
+updatafont
 ```
 
 ## 项目示例如下
